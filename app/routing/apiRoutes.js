@@ -5,15 +5,14 @@ module.exports = function (app) {
     res.json(friends)
   })
 
-  app.post('/api/friends/', function (req, res) {
-    friends.push(req.body)
+  app.post('/api/friends', function (req, res) {
     let newUser = req.body
-    // console.log(newUser.scores)
-    let scoreARR = []
-    let matchingName = " ";
-    let matchingPhoto = " ";
+    friends.push(newUser)
+    console.log(newUser.scores)
 
-    let friends2 = friends.filter((e, index) => index < friends.length - 1);
+    let scoreARR = []
+
+    let friends2 = friends.filter((e, index) => index < friends.length - 1)
 
     let friends3 = friends2.map((elmt, pos) => {
       let scoreArr2 = elmt.scores.reduce((diff, e, i) => {
@@ -21,18 +20,16 @@ module.exports = function (app) {
       }, 0)
       scoreARR.push(scoreArr2)
     })
+    console.log(scoreARR)
 
+
+    let pos = 0
     scoreARR.map((e, i) => {
-      if (e = Math.min(...scoreARR)) {
-        friends[i].name == matchingName;
-        friends[i].photo == matchingPhoto;
+
+      if (e === Math.min(...scoreARR) || (e = 0)) {
+        pos = i
       }
     })
-
-    console.log(scoreARR);
-    res.json({
-        name:matchingName,
-        photo:matchingPhoto
-    })
+    res.json(friends[pos])
   })
 }
